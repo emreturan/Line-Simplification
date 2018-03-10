@@ -25,7 +25,7 @@
                   <HBox alignment="CENTER_RIGHT">
                      <children>
                         <Label text="Sunucu Adresi: " />
-                        <TextField fx:id="address">
+                        <TextField fx:id="address" text="localhost">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -42,7 +42,7 @@
                               <Insets />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="indirgemePort">
+                        <TextField fx:id="indirgemePort" text="19984">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -55,7 +55,7 @@
                   <HBox alignment="CENTER_RIGHT" layoutX="20.0" layoutY="45.0">
                      <children>
                         <Label text="Sorgu Servisi Portu: " />
-                        <TextField fx:id="sorguPort">
+                        <TextField fx:id="sorguPort" text="19985">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>

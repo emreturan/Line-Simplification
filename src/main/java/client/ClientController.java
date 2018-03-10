@@ -21,6 +21,7 @@ import javafx.stage.Window;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable, MapComponentInitializedListener {
@@ -48,6 +49,7 @@ public class ClientController implements Initializable, MapComponentInitializedL
     private GoogleMap map;
     private PointData trajectoryData;
     private PointData simplifiedData;
+    private ArrayList<Polyline> polylines;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,12 +59,12 @@ public class ClientController implements Initializable, MapComponentInitializedL
     @Override
     public void mapInitialized(){
         MapOptions options = new MapOptions();
-
-        options.center(new LatLong(39.984702, 116.318417)).mapType(MapTypeIdEnum.ROADMAP).zoom(12);
-
+        options.center(new LatLong(40.008615, 116.321539)).mapType(MapTypeIdEnum.ROADMAP).zoom(12);
         map = mapView.createMap(options, false);
 
         actionReadfile.setDisable(false);
+
+        polylines = new ArrayList<>();
 
         actionReadfile.setOnAction(event -> {
             Window stage = anchorPane.getScene().getWindow();
@@ -77,10 +79,13 @@ public class ClientController implements Initializable, MapComponentInitializedL
                 e.printStackTrace();
             }
 
-            drawPolyLine(trajectoryData.getPolyline("red"));
+            clearPolylines();
+
+            Polyline polyline = trajectoryData.getPolyline("red");
+            drawPolyLine(polyline);
+            polylines.add(polyline);
 
             actionIndirge.setDisable(false);
-            actionReadfile.setDisable(true);
         });
 
         actionIndirge.setOnAction(event -> {
@@ -96,15 +101,23 @@ public class ClientController implements Initializable, MapComponentInitializedL
                 String recievedJson = reader.readLine();
                 reader.close();
 
-                PointData simplifiedPoints = gson.fromJson(recievedJson, PointData.class);
-
-                drawPolyLine(simplifiedPoints.getPolyline("blue"));
+                simplifiedData = gson.fromJson(recievedJson, PointData.class);
+                Polyline polyline = simplifiedData.getPolyline("blue");
+                drawPolyLine(polyline);
+                polylines.add(polyline);
             } catch (IOException e){
                 e.printStackTrace();
                 return;
             }
         });
 
+    }
+
+    private void clearPolylines(){
+        for (Polyline polyline : polylines){
+            map.removeMapShape(polyline);
+        }
+        polylines.clear();
     }
 
     private void drawPolyLine(Polyline polyline){

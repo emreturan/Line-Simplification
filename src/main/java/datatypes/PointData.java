@@ -5,8 +5,6 @@ import com.lynden.gmapsfx.javascript.object.MVCArray;
 import com.lynden.gmapsfx.shapes.PolylineOptions;
 import com.lynden.gmapsfx.shapes.Polyline;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class PointData {
@@ -48,7 +46,7 @@ public class PointData {
 
     public Polyline getPolyline(String color){
         PolylineOptions polylineOptions = new PolylineOptions().path(getMVCArray()).strokeColor(color).strokeWeight(1);
-
-        return new Polyline(polylineOptions);
+        Polyline polyline = new Polyline(polylineOptions);
+        return polyline;
     }
 }
