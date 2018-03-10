@@ -13,6 +13,7 @@ import datatypes.PointData;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -34,6 +35,15 @@ public class ClientController implements Initializable, MapComponentInitializedL
 
     @FXML
     private Button actionReadfile;
+
+    @FXML
+    private TextField address;
+
+    @FXML
+    private TextField indirgemePort;
+
+    @FXML
+    private TextField sorguPort;
 
     private GoogleMap map;
     private PointData trajectoryData;
@@ -77,7 +87,7 @@ public class ClientController implements Initializable, MapComponentInitializedL
             try {
                 Gson gson = new Gson();
 
-                Socket socket = new Socket("localhost", 19984);
+                Socket socket = new Socket(address.getText(), Integer.parseInt(indirgemePort.getText()));
 
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 out.println(gson.toJson(trajectoryData));

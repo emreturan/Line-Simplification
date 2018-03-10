@@ -1,0 +1,7 @@
+client\Client.class
+client\io\TrajectoryFile.class
+client\ClientController.class
+datatypes\PointData.class
+server\simplification\SimplificationRequest.class
+math\CustomMath.class
+server\Server.class

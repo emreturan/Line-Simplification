@@ -13,7 +13,7 @@ public class Server {
             simplificationListener = new ServerSocket(19984);
             while (true){
                 Socket simplificationSocket = simplificationListener.accept();
-                SimplificationRequest simplificationRequest = new SimplificationRequest(simplificationSocket.getLocalAddress().toString(), simplificationSocket);
+                SimplificationRequest simplificationRequest = new SimplificationRequest(simplificationSocket.getInetAddress().toString(), simplificationSocket);
                 simplificationRequest.start();
             }
         } catch (IOException e){

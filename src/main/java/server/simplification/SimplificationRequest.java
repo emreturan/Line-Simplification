@@ -95,7 +95,7 @@ public class SimplificationRequest implements Runnable {
             }
         }
 
-        double epsilon = CustomMath.getStdDeviation(distanceList);
+        double epsilon = 0.05 * CustomMath.getStdDeviation(distanceList);
 
         if (dmax > epsilon) {
             ArrayList<double []> results1 = simplify(new ArrayList<>(pointList.subList(0, index+1)), epsilon);
