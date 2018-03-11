@@ -24,7 +24,7 @@ public class SimplificationRequest implements Runnable {
         System.out.println(threadName + " adresiyle bağlantı oluşturuldu.");
     }
 
-    private String receiveData(){
+    private String recieveData(){
         BufferedReader reader;
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -95,7 +95,7 @@ public class SimplificationRequest implements Runnable {
             }
         }
 
-        double epsilon = 0.05 * CustomMath.getStdDeviation(distanceList);
+        double epsilon = recievedData.epsilonFactor * CustomMath.getStdDeviation(distanceList);
 
         if (dmax > epsilon) {
             ArrayList<double []> results1 = simplify(new ArrayList<>(pointList.subList(0, index+1)), epsilon);
@@ -113,11 +113,18 @@ public class SimplificationRequest implements Runnable {
 
     @Override
     public void run() {
-        String recievedJson = receiveData();
+        long startTime = System.currentTimeMillis();
+
+        String recievedJson = recieveData();
         Gson gson = new Gson();
         recievedData = gson.fromJson(recievedJson, PointData.class);
-
         simplifiedData = new PointData(simplify());
+
+        long endTime = System.currentTimeMillis();
+        simplifiedData.calculationTime = endTime - startTime;
+
+        double compressionRatio = (1 - (simplifiedData.points.length / (double)recievedData.points.length)) * 100;
+        simplifiedData.compressionRate = compressionRatio;
 
         sendSimplifiedData();
 

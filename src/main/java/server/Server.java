@@ -8,9 +8,11 @@ import java.net.Socket;
 
 public class Server {
     private static ServerSocket simplificationListener;
+    private static final int simplificationPort = 19984;
     public static void main(String[] args) {
         try {
-            simplificationListener = new ServerSocket(19984);
+            simplificationListener = new ServerSocket(simplificationPort);
+            System.out.println("İndirgeme sunucusu başlatıldı. " + simplificationPort + " portundan gelen bağlantılar dinleniyor.");
             while (true){
                 Socket simplificationSocket = simplificationListener.accept();
                 SimplificationRequest simplificationRequest = new SimplificationRequest(simplificationSocket.getInetAddress().toString(), simplificationSocket);

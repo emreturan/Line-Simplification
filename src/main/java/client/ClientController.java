@@ -13,6 +13,7 @@ import datatypes.PointData;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -21,7 +22,7 @@ import javafx.stage.Window;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable, MapComponentInitializedListener {
@@ -46,10 +47,20 @@ public class ClientController implements Initializable, MapComponentInitializedL
     @FXML
     private TextField sorguPort;
 
+    @FXML
+    private Label calculationTime;
+
+    @FXML
+    private Label compressionRatio;
+
+    @FXML
+    private TextField epsilonFactor;
+
     private GoogleMap map;
     private PointData trajectoryData;
     private PointData simplifiedData;
-    private ArrayList<Polyline> polylines;
+    private Polyline trajectoryPoly;
+    private Polyline simplifiedPoly;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,12 +70,10 @@ public class ClientController implements Initializable, MapComponentInitializedL
     @Override
     public void mapInitialized(){
         MapOptions options = new MapOptions();
-        options.center(new LatLong(40.008615, 116.321539)).mapType(MapTypeIdEnum.ROADMAP).zoom(12);
+        options.center(new LatLong(41, 29)).mapType(MapTypeIdEnum.ROADMAP).zoom(10);
         map = mapView.createMap(options, false);
 
         actionReadfile.setDisable(false);
-
-        polylines = new ArrayList<>();
 
         actionReadfile.setOnAction(event -> {
             Window stage = anchorPane.getScene().getWindow();
@@ -79,48 +88,71 @@ public class ClientController implements Initializable, MapComponentInitializedL
                 e.printStackTrace();
             }
 
-            clearPolylines();
+            clearPolyline(trajectoryPoly);
+            clearPolyline(simplifiedPoly);
 
-            Polyline polyline = trajectoryData.getPolyline("red");
+            Polyline polyline = trajectoryData.getPolyline("red", 1);
             drawPolyLine(polyline);
-            polylines.add(polyline);
+            trajectoryPoly = polyline;
+
+            map.setCenter(trajectoryData.getCenterPoint());
 
             actionIndirge.setDisable(false);
         });
 
         actionIndirge.setOnAction(event -> {
             try {
-                Gson gson = new Gson();
+                trajectoryData.epsilonFactor = Double.parseDouble(epsilonFactor.getText());
 
                 Socket socket = new Socket(address.getText(), Integer.parseInt(indirgemePort.getText()));
+                sendData(socket, trajectoryData);
+                simplifiedData = recieveData(socket);
 
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                out.println(gson.toJson(trajectoryData));
+                calculationTime.setText("Hesaplama " + simplifiedData.calculationTime + " ms sürdü.");
+                compressionRatio.setText("Sıkıştırma oranı: %" + simplifiedData.compressionRate);
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String recievedJson = reader.readLine();
-                reader.close();
+                clearPolyline(simplifiedPoly);
 
-                simplifiedData = gson.fromJson(recievedJson, PointData.class);
-                Polyline polyline = simplifiedData.getPolyline("blue");
+                Polyline polyline = simplifiedData.getPolyline("blue", 2);
                 drawPolyLine(polyline);
-                polylines.add(polyline);
-            } catch (IOException e){
+                simplifiedPoly = polyline;
+            } catch (UnknownHostException e){
+                calculationTime.setText("Sunucu bulunamadı.");
                 e.printStackTrace();
-                return;
+            } catch (IOException e){
+                calculationTime.setText("G/Ç hatası.");
+                e.printStackTrace();
+            } catch (NumberFormatException e){
+                calculationTime.setText("Numerik bir değer girin.");
+                e.printStackTrace();
             }
         });
 
     }
 
-    private void clearPolylines(){
-        for (Polyline polyline : polylines){
+    private void clearPolyline(Polyline polyline){
+        try {
             map.removeMapShape(polyline);
+        } catch (NullPointerException e){
+            return;
         }
-        polylines.clear();
     }
 
     private void drawPolyLine(Polyline polyline){
         map.addMapShape(polyline);
+    }
+
+    private void sendData(Socket socket, PointData pointData) throws IOException{
+        Gson gson = new Gson();
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        out.println(gson.toJson(pointData));
+    }
+
+    private PointData recieveData(Socket socket) throws IOException {
+        Gson gson = new Gson();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String recievedJson = reader.readLine();
+        reader.close();
+        return gson.fromJson(recievedJson, PointData.class);
     }
 }

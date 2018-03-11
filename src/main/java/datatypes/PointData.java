@@ -8,9 +8,9 @@ import com.lynden.gmapsfx.shapes.Polyline;
 import java.util.ArrayList;
 
 public class PointData {
-    public String message;
-    public String calculationTime;
-    public double rate;
+    public long calculationTime;
+    public double compressionRate;
+    public double epsilonFactor;
     public double[][] points;
 
     public PointData(ArrayList<double []> pointList){
@@ -44,9 +44,19 @@ public class PointData {
         return mvcArray;
     }
 
-    public Polyline getPolyline(String color){
-        PolylineOptions polylineOptions = new PolylineOptions().path(getMVCArray()).strokeColor(color).strokeWeight(1);
+    public Polyline getPolyline(String color, int strokeWeight){
+        PolylineOptions polylineOptions = new PolylineOptions().path(getMVCArray()).strokeColor(color).strokeWeight(strokeWeight);
         Polyline polyline = new Polyline(polylineOptions);
         return polyline;
+    }
+
+    public LatLong getCenterPoint(){
+        double sumx = 0;
+        double sumy = 0;
+        for (int i = 0; i < points.length; i++) {
+            sumx += points[i][0];
+            sumy += points[i][1];
+        }
+        return new LatLong(sumx / points.length, sumy / points.length);
     }
 }

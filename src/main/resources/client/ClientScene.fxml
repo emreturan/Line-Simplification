@@ -65,6 +65,19 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label text="Sıkıştırma Katsayısı" />
+                        <TextField fx:id="epsilonFactor" text="0.05">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
                   <Button fx:id="actionReadfile" disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Dosya Aç">
                      <VBox.margin>
                         <Insets bottom="10.0" />
@@ -74,6 +87,8 @@
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></Button>
+                  <Label fx:id="calculationTime" />
+                  <Label fx:id="compressionRatio" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
