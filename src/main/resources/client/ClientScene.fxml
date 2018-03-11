@@ -3,6 +3,7 @@
 <?import com.lynden.gmapsfx.GoogleMapView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -87,6 +88,15 @@
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></Button>
+                  <CheckBox fx:id="originalPolylineCheck" disable="true" mnemonicParsing="false" prefWidth="125.0" selected="true" text="Orijinal Gezinge">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="simplifiedPolylineCheck" disable="true" mnemonicParsing="false" prefWidth="125.0" selected="true" text="İndirgemiş Gezinge">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></CheckBox>
                   <Label fx:id="calculationTime" />
                   <Label fx:id="compressionRatio" />
                </children>

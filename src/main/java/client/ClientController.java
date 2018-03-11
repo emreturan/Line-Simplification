@@ -13,6 +13,7 @@ import datatypes.PointData;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -56,6 +57,12 @@ public class ClientController implements Initializable, MapComponentInitializedL
     @FXML
     private TextField epsilonFactor;
 
+    @FXML
+    private CheckBox originalPolylineCheck;
+
+    @FXML
+    private CheckBox simplifiedPolylineCheck;
+
     private GoogleMap map;
     private PointData trajectoryData;
     private PointData simplifiedData;
@@ -98,6 +105,8 @@ public class ClientController implements Initializable, MapComponentInitializedL
             map.setCenter(trajectoryData.getCenterPoint());
 
             actionIndirge.setDisable(false);
+            originalPolylineCheck.setDisable(false);
+            simplifiedPolylineCheck.setDisable(true);
         });
 
         actionIndirge.setOnAction(event -> {
@@ -116,6 +125,7 @@ public class ClientController implements Initializable, MapComponentInitializedL
                 Polyline polyline = simplifiedData.getPolyline("blue", 2);
                 drawPolyLine(polyline);
                 simplifiedPoly = polyline;
+                simplifiedPolylineCheck.setDisable(false);
             } catch (UnknownHostException e){
                 calculationTime.setText("Sunucu bulunamadı.");
                 e.printStackTrace();
@@ -128,14 +138,28 @@ public class ClientController implements Initializable, MapComponentInitializedL
             }
         });
 
+        originalPolylineCheck.setOnAction(event -> {
+            if (originalPolylineCheck.isSelected()){
+                drawPolyLine(trajectoryPoly);
+            } else {
+                clearPolyline(trajectoryPoly);
+            }
+        });
+
+        simplifiedPolylineCheck.setOnAction(event -> {
+            if (simplifiedPolylineCheck.isSelected()){
+                drawPolyLine(simplifiedPoly);
+            } else {
+                clearPolyline(simplifiedPoly);
+            }
+        });
+
     }
 
     private void clearPolyline(Polyline polyline){
         try {
             map.removeMapShape(polyline);
-        } catch (NullPointerException e){
-            return;
-        }
+        } catch (NullPointerException e){ }
     }
 
     private void drawPolyLine(Polyline polyline){
