@@ -71,7 +71,6 @@ public class QueryRequest implements Runnable {
         long startTime = System.currentTimeMillis();
 
         String recievedJson = recieveData();
-        System.out.println(recievedJson);
         Gson gson = new Gson();
         recievedData = gson.fromJson(recievedJson, PointData.class);
         quadTree = new QuadTree(recievedData);
