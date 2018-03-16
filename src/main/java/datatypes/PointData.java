@@ -2,6 +2,8 @@ package datatypes;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MVCArray;
+import com.lynden.gmapsfx.shapes.Circle;
+import com.lynden.gmapsfx.shapes.CircleOptions;
 import com.lynden.gmapsfx.shapes.PolylineOptions;
 import com.lynden.gmapsfx.shapes.Polyline;
 
@@ -12,6 +14,12 @@ public class PointData {
     public double compressionRate;
     public double epsilonFactor;
     public double[][] points;
+
+    //Dikdörtgen sorgu için
+    public double startX;
+    public double startY;
+    public double width;
+    public double height;
 
     public PointData(ArrayList<double []> pointList){
         points = new double[pointList.size()][2];
@@ -44,10 +52,29 @@ public class PointData {
         return mvcArray;
     }
 
-    public Polyline getPolyline(String color, int strokeWeight){
-        PolylineOptions polylineOptions = new PolylineOptions().path(getMVCArray()).strokeColor(color).strokeWeight(strokeWeight);
+    public Polyline getPolyline(String color, int strokeWeight, int index){
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .path(getMVCArray())
+                .strokeColor(color)
+                .strokeWeight(strokeWeight)
+                .zIndex(index);
         Polyline polyline = new Polyline(polylineOptions);
         return polyline;
+    }
+
+    public ArrayList<Circle> getCircleList(String color, int index){
+        ArrayList<Circle> circleList = new ArrayList<>();
+        for (int i = 0; i < points.length; i++) {
+            CircleOptions circleOptions = new CircleOptions()
+                    .center(new LatLong(points[i][0], points[i][1]))
+                    .radius(0.5)
+                    .strokeColor(color)
+                    .fillColor("black")
+                    .zIndex(index);
+            Circle circle = new Circle(circleOptions);
+            circleList.add(circle);
+        }
+        return circleList;
     }
 
     public LatLong getCenterPoint(){

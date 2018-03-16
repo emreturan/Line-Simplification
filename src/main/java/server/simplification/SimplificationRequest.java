@@ -21,7 +21,7 @@ public class SimplificationRequest implements Runnable {
         this.threadName = threadName;
         this.socket = socket;
 
-        System.out.println(threadName + " adresiyle bağlantı oluşturuldu.");
+        System.out.println(threadName + " adresiyle bağlantı oluşturuldu. (İndirgeme Sunucusu)");
     }
 
     private String recieveData(){
@@ -128,7 +128,7 @@ public class SimplificationRequest implements Runnable {
 
         sendSimplifiedData();
 
-        System.out.println(threadName + " sonlandırılıyor.");
+        System.out.println(threadName + " sonlandırılıyor. (İndirgeme Sunucusu)");
 
         thread.interrupt();
     }

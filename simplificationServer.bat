@@ -1,0 +1,1 @@
+java -jar target\simplification-server.jar

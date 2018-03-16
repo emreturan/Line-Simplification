@@ -1,12 +1,10 @@
-package server;
-
-import server.simplification.SimplificationRequest;
+package server.simplification;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class SimplificationServer {
     private static ServerSocket simplificationListener;
     private static final int simplificationPort = 19984;
     public static void main(String[] args) {

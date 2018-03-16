@@ -4,10 +4,8 @@ import client.io.TrajectoryFile;
 import com.google.gson.Gson;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
-import com.lynden.gmapsfx.javascript.object.GoogleMap;
-import com.lynden.gmapsfx.javascript.object.LatLong;
-import com.lynden.gmapsfx.javascript.object.MapOptions;
-import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
+import com.lynden.gmapsfx.javascript.object.*;
+import com.lynden.gmapsfx.shapes.Circle;
 import com.lynden.gmapsfx.shapes.Polyline;
 import datatypes.PointData;
 import javafx.fxml.FXML;
@@ -24,6 +22,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable, MapComponentInitializedListener {
@@ -68,6 +67,8 @@ public class ClientController implements Initializable, MapComponentInitializedL
     private PointData simplifiedData;
     private Polyline trajectoryPoly;
     private Polyline simplifiedPoly;
+    private ArrayList<Circle> circleList;
+    private ArrayList<Circle> simplifiedCircleList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,10 +98,15 @@ public class ClientController implements Initializable, MapComponentInitializedL
 
             clearPolyline(trajectoryPoly);
             clearPolyline(simplifiedPoly);
+            removeCircles(circleList);
+            removeCircles(simplifiedCircleList);
 
-            Polyline polyline = trajectoryData.getPolyline("red", 1);
+            Polyline polyline = trajectoryData.getPolyline("red", 1, 1);
             drawPolyLine(polyline);
             trajectoryPoly = polyline;
+
+            circleList = trajectoryData.getCircleList("red", 2);
+            drawCircles(circleList);
 
             map.setCenter(trajectoryData.getCenterPoint());
 
@@ -121,10 +127,15 @@ public class ClientController implements Initializable, MapComponentInitializedL
                 compressionRatio.setText("Sıkıştırma oranı: %" + simplifiedData.compressionRate);
 
                 clearPolyline(simplifiedPoly);
+                removeCircles(simplifiedCircleList);
 
-                Polyline polyline = simplifiedData.getPolyline("blue", 2);
+                Polyline polyline = simplifiedData.getPolyline("blue", 1, 3);
                 drawPolyLine(polyline);
                 simplifiedPoly = polyline;
+
+                simplifiedCircleList = simplifiedData.getCircleList("blue", 4);
+                drawCircles(simplifiedCircleList);
+
                 simplifiedPolylineCheck.setDisable(false);
             } catch (UnknownHostException e){
                 calculationTime.setText("Sunucu bulunamadı.");
@@ -164,6 +175,20 @@ public class ClientController implements Initializable, MapComponentInitializedL
 
     private void drawPolyLine(Polyline polyline){
         map.addMapShape(polyline);
+    }
+
+    private void removeCircles(ArrayList<Circle> circleList){
+        try {
+            for (int i = 0; i < circleList.size(); i++) {
+                map.removeMapShape(circleList.get(i));
+            }
+        } catch (NullPointerException e){ }
+    }
+
+    private void drawCircles(ArrayList<Circle> circleList){
+        for (int i = 0; i < circleList.size(); i++) {
+            map.addMapShape(circleList.get(i));
+        }
     }
 
     private void sendData(Socket socket, PointData pointData) throws IOException{
