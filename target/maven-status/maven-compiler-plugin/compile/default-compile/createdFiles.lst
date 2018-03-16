@@ -1,0 +1,12 @@
+client\io\TrajectoryFile.class
+client\ClientController.class
+datatypes\Node.class
+server\simplification\SimplificationRequest.class
+client\Client.class
+datatypes\PointData.class
+server\query\QueryServer.class
+server\simplification\SimplificationServer.class
+math\CustomMath.class
+datatypes\QuadTree.class
+datatypes\QueryRectangle.class
+server\query\QueryRequest.class

@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5f369d42-c655-40e3-b3bc-6ebec9f2adc9" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/datatypes/QuadTree.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/server/query/QueryRequest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/server/query/QueryServer.java" />
+    <list default="true" id="5f369d42-c655-40e3-b3bc-6ebec9f2adc9" name="Default" comment="QuadTree">
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/server.bat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientController.java" afterPath="$PROJECT_DIR$/src/main/java/client/ClientController.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/datatypes/PointData.java" afterPath="$PROJECT_DIR$/src/main/java/datatypes/PointData.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" afterPath="$PROJECT_DIR$/src/main/java/server/simplification/SimplificationServer.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/simplification/SimplificationRequest.java" afterPath="$PROJECT_DIR$/src/main/java/server/simplification/SimplificationRequest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -357,7 +349,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Epsilon katsayısı opsiyonu eklendi.&#10;Ufak kod iyileştirmeleri yapıldı." />
     <MESSAGE value="Ufak özellik geliştirmeleri" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ufak özellik geliştirmeleri" />
+    <MESSAGE value="QuadTree" />
+    <option name="LAST_COMMIT_MESSAGE" value="QuadTree" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
