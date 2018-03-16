@@ -17,7 +17,7 @@ public class QueryServer {
                 queryRequest.start();
             }
         } catch (IOException e){
-            System.out.println("Sorgu sunucusu başlatılamadı.");
+            System.out.println("İndirgeme sunucusu başlatılamadı.");
             e.printStackTrace();
         } finally {
             try {

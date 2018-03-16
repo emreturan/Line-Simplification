@@ -7,28 +7,28 @@ public class QueryRectangle {
     /**
      * Sorgunun merkezinin x koordinatı.
      */
-    public double startX;
+    public double neLat;
     /**
      * Sorgunun merkezinin y koordinatı.
      */
-    public double startY;
+    public double neLng;
     /**
      * Sorgunun yarıçapı
      */
-    public double width;
+    public double swLat;
 
-    public double height;
+    public double swLng;
 
     /**
      * Constructor
      *
-     * @param startX Sorgunun merkezinin x koordinatı.
-     * @param startY Sorgunun merkezinin y koordinatı.
+     * @param neLat Sorgunun merkezinin x koordinatı.
+     * @param neLng Sorgunun merkezinin y koordinatı.
      */
-    public QueryRectangle(double startX, double startY, double width, double height) {
-        this.startX = startX;
-        this.startY = startY;
-        this.width = width;
-        this.height = height;
+    public QueryRectangle(double neLat, double neLng, double swLat, double swLng) {
+        this.neLat = neLat;
+        this.neLng = neLng;
+        this.swLat = swLat;
+        this.swLng = swLng;
     }
 }

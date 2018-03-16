@@ -71,11 +71,12 @@ public class QueryRequest implements Runnable {
         long startTime = System.currentTimeMillis();
 
         String recievedJson = recieveData();
+        System.out.println(recievedJson);
         Gson gson = new Gson();
         recievedData = gson.fromJson(recievedJson, PointData.class);
         quadTree = new QuadTree(recievedData);
 
-        QueryRectangle queryRectangle = new QueryRectangle(recievedData.startX, recievedData.startY, recievedData.width, recievedData.height);
+        QueryRectangle queryRectangle = new QueryRectangle(recievedData.neLat, recievedData.neLng, recievedData.swLat, recievedData.swLng);
         queryResult = new PointData(search(queryRectangle));
 
         long endTime = System.currentTimeMillis();

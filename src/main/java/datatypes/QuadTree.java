@@ -56,7 +56,7 @@ public class QuadTree {
         if (root == null) return new ArrayList<Node>();
         else {
             ArrayList<Node> results = new ArrayList<>();
-            if (root.isInRectangle(queryRectangle.startX, queryRectangle.startY, queryRectangle.width, queryRectangle.height)) results.add(root);
+            if (root.isInRectangle(queryRectangle.neLat, queryRectangle.neLng, queryRectangle.swLat, queryRectangle.swLng)) results.add(root);
             for (Node child : root.childs) {
                 results.addAll(search(child, queryRectangle));
             }

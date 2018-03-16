@@ -16,10 +16,10 @@ public class PointData {
     public double[][] points;
 
     //Dikdörtgen sorgu için
-    public double startX;
-    public double startY;
-    public double width;
-    public double height;
+    public double neLat;
+    public double neLng;
+    public double swLat;
+    public double swLng;
 
     public PointData(ArrayList<double []> pointList){
         points = new double[pointList.size()][2];

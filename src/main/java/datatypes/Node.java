@@ -83,8 +83,8 @@ public class Node {
         else return false;
     }
 
-    public boolean isInRectangle(double posX, double posY, double width, double height){
-        if (this.posX > posX && this.posY > posY && this.posX < posX + width && this.posY < posY + height) return true;
+    public boolean isInRectangle(double neLat, double neLng, double swLat, double swLng){
+        if (posX > neLat && posY > neLng && posX < swLat && posY < swLng) return true;
         return false;
     }
 }
