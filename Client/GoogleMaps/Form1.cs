@@ -60,7 +60,7 @@ namespace GoogleMaps
         {
             Client client = new Client();
 
-            Data data = new Data(simplifiedData.ToArray(), SWlat, SWlng, NElat, NElng);
+            Data data = new Data(simplifiedData.ToArray(), NElat, NElng, SWlat, SWlng);
 
             string json = client.sendData(data, ip, 19985);
             Data resultData = new JavaScriptSerializer().Deserialize<Data>(json);
@@ -78,7 +78,7 @@ namespace GoogleMaps
         {
             Client client = new Client();
 
-            Data data = new Data(rawData.ToArray(), SWlat, SWlng, NElat, NElng);
+            Data data = new Data(rawData.ToArray(), NElat, NElng, SWlat, SWlng);
 
             string json = client.sendData(data, ip, 19985);
             Data resultData = new JavaScriptSerializer().Deserialize<Data>(json);
