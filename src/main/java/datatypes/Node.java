@@ -84,7 +84,7 @@ public class Node {
     }
 
     public boolean isInRectangle(double neLat, double neLng, double swLat, double swLng){
-        if (posX > neLat && posY > neLng && posX < swLat && posY < swLng) return true;
+        if (posX < neLat && posY < neLng && posX > swLat && posY > swLng) return true;
         return false;
     }
 }
